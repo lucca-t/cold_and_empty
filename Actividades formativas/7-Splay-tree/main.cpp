@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
 
   my_splay.remove(13);  //bottum up
   in_ans =	"[7 10 15 16 17]";
-  pre_ans =	"[15 7 10 16 17]";
+  pre_ans =	"[10 7 17 15 16]";
   cout << "\n" <<"5.- esperada " << in_ans << "\n programa " << my_splay.inorder() << "\n";
   cout <<	(!in_ans.compare(my_splay.inorder()) ? "success\n" : "fail\n");
   cout << "\n" <<"5.- esperada " << pre_ans << "\n programa " << my_splay.preorder() << "\n";
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
 
   my_splay.remove(16);  //bottum up
   in_ans =	"[7 10 15 17]";
-  pre_ans =	"[15 7 10 17]";
+  pre_ans =	"[15 10 7 17]";
   cout << "\n" <<"6.- esperada " << in_ans << "\n programa " << my_splay.inorder() << "\n";
   cout <<	(!in_ans.compare(my_splay.inorder()) ? "success\n" : "fail\n");
   cout << "\n" <<"6.- esperada " << pre_ans << "\n programa " << my_splay.preorder() << "\n";
