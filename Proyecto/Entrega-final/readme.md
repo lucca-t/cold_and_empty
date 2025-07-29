@@ -34,7 +34,7 @@ Escribe aquí la descripción de lo que contiene la entrega final.
 ## Instrucciones para compilar el proyecto
 Ejecuta el siguiente comando en la terminal:
 
-`g++ main.cpp -o final` 
+`g++ main.cpp -std=c++11 -o final` 
 
 ## Instrucciones para ejecutar el proyecto
 Ejecuta el siguiente comando en la terminal:

@@ -16,12 +16,12 @@ Escribe aquí la descripción de lo que contiene este avance.
 ## Instrucciones para compilar el avance de proyecto
 Ejecuta el siguiente comando en la terminal:
 
-`g++ main.cpp -o primer_avance` 
+`g++ main.cpp  -std=c++11 -o segundo_avance` 
 
 ## Instrucciones para ejecutar el avance de proyecto
 Ejecuta el siguiente comando en la terminal:
 
-`./primer_avance` 
+`./segundo_avance` 
 
 ## Descripción de las entradas del avance de proyecto
 Escribe aquí la descripción de las entradas del proyecto, por ejemplo, si de entrada se requieren varios archivos, hay que indicar el formato de cada uno de ellos, y proporcionar un ejemplo de los datos de cada archivo.

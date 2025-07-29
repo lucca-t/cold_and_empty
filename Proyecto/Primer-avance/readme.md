@@ -7,7 +7,7 @@ Escribe aquí la descripción de lo que contiene este avance
 ## Instrucciones para compilar el avance de proyecto
 Ejecuta el siguiente comando en la terminal:
 
-`g++ main.cpp -o primer_avance` 
+`g++ main.cpp -std=c++11 -o primer_avance` 
 
 ## Instrucciones para ejecutar el avance de proyecto
 Ejecuta el siguiente comando en la terminal:
