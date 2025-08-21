@@ -7,7 +7,7 @@
 #include <iostream>
 #include "unit.h"
 #include "recursion.h"
-
+using namespace std;
 class RecursionTest : public UnitTest {
 public:
 	void runTest() {
