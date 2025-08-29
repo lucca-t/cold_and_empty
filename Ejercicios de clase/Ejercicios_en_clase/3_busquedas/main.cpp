@@ -11,7 +11,7 @@
 class RecursionTest : public UnitTest {
 public:
 	void runTest() {
-		int a2[] = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22};
+		int a2[] = {0, 2, 4, 6, 8, 10, 12, 13, 16, 18, 20, 22};
 		int size = 12;
 
 		std::cout << "Test 1...";

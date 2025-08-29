@@ -13,14 +13,41 @@
 
 
 int bs_seq(int arr[], int size, int val) {
-	return 0;
+	int l = 0;
+    int r = size-1;
+        
+	while ( l <= r){
+		int mid = l + (r-l)/2;
+
+		if ( arr[mid] == val){
+			return mid;
+		}else if ( arr[mid] < val){
+			l = mid + 1;
+		}else{
+			r = mid-1;
+		}
+	}
+
+	return -1;
 }
 
-int bs_aux(int arr[], int low, int high, int val) {
-	return 0;
+int bs_aux(int arr[], int low, int high, int val)	{
+
+	if ( low <= high){
+		int mid = low + (high-low)/2;
+		
+		if (arr[mid] == val){
+			return mid;
+		}else if ( arr[mid] < val){
+			return bs_aux(arr, mid+1, high,val);
+		}else{
+			return bs_aux(arr, low, mid-1,val);
+		}
+	}
+	return -1;
 }
 
 int bs_rec(int arr[], int size, int val) {
-	return 0;
+	return bs_aux(arr, 0, size-1,val);
 }
 #endif
