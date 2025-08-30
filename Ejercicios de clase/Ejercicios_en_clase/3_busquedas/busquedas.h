@@ -10,7 +10,7 @@
 
 #include "exception.h"
 #include <iostream>
-
+using namespace std;
 
 int bs_seq(int arr[], int size, int val) {
 	int l = 0;
@@ -32,9 +32,9 @@ int bs_seq(int arr[], int size, int val) {
 }
 
 int bs_aux(int arr[], int low, int high, int val)	{
-
+int mid;
 	if ( low <= high){
-		int mid = low + (high-low)/2;
+		 mid = low + (high-low)/2;
 		
 		if (arr[mid] == val){
 			return mid;
