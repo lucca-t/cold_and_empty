@@ -54,18 +54,57 @@ std::vector<T> Sorts<T>::bubbleSort(const std::vector<T> &source) {
 template <class T>
 std::vector<T> Sorts<T>::selectionSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+
+	for(int i = 0; i < v.size(); i ++ ){
+		int min_ind = i;
+		for( int j = i+1; j < v.size(); j++){
+			if (v[min_ind] > v[j]){
+				min_ind = j;
+			}
+		}
+		swap(v, min_ind, i);
+	}
 	return v;
 }
 
 template <class T>
 std::vector<T> Sorts<T>::insertionSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+	
+	// primer elemento (indice de 0) esta "sorted"
+	for(int i = 0; i < v.size(); i++) {
+		for(int j = i; j > 0; j--){
+			if (v[j] < v[j - 1]){
+				swap(v, j, j - 1);
+			}else {
+				break;
+			}
+		}
+		
+	}
+
 	return v;
 }
 
 template <class T>
 std::vector<T> Sorts<T>::shellSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+	int n = v.size();
+
+	//para marcar la mitad, gap divide entre 2 cada vez
+	for(int gap = n/2; gap > 0; gap /= 2) {
+		// esto hace usa el gap para checar los valores entre el gap
+		for(int i = gap; i < n; i ++) {
+			int j = i;
+			// si es mas grande el valor antes del gap, swap
+			while (j >= gap && v[j - gap] > v[j]) {
+				swap(v, j, (j - gap));
+				j -= gap;
+			}
+		} 
+	}
+
+
 	return v;
 }
 
