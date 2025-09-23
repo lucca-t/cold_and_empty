@@ -54,31 +54,85 @@ std::vector<T> Sorts<T>::bubbleSort(const std::vector<T> &source) {
 template <class T>
 std::vector<T> Sorts<T>::selectionSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+	//int first = 0;
+	
+	for(int i = 0; i < v.size(); i++){
+		int min_ind = i;
+		for(int j = i; j < v.size(); j++){
+			if(v[j] < v[min_ind]){
+				min_ind = j;
+			}
+
+		}
+		swap(v,i,min_ind);
+	}
 	return v;
 }
 
 template <class T>
 std::vector<T> Sorts<T>::insertionSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+
+	
+	for(int i = 1; i < v.size(); i++) {
+		for(int j = i; j > 0 && v[j] < v[j - 1]; j--) {
+			swap(v, j, j - 1);
+		}
+	}
+
 	return v;
 }
 
 template <class T>
 std::vector<T> Sorts<T>::shellSort(const std::vector<T> &source) {
 	std::vector<T> v(source);
+	int gap = v.size() / 2;
+
+	while (gap > 0) {
+		for (int i = gap; i < v.size(); i++) {
+			for (int j = i; j >= gap && v[j] < v[j - gap]; j -= gap) {
+				swap(v, j, j - gap);
+			}
+		}
+		gap /= 2;
+	}
 	return v;
+
 }
 
 template <class T>
 void Sorts<T>::copyArray(std::vector<T> &A, std::vector<T> &B, int low, int high) {
+	for(int i = low; i <= high; i++) {
+		A[i] = B[i];
+	}
 }
 
 template <class T>
 void Sorts<T>::mergeArray(std::vector<T> &A, std::vector<T> &B, int low, int mid, int high) {
+	int i, j, k;
+
+	i = low;
+	j = mid + 1;
+	k = low;
+
+	while( i <= mid && j <= high) {
+		if (A[i] < A[j]) {
+			B[k] = A[i]
+		}
+	}
 }
 
 template <class T>
 void Sorts<T>::mergeSplit(std::vector<T> &A, std::vector<T> &B, int low, int high) {
+	if( (high - low) < 1){
+		return;
+	}
+	int mid = low + (high-low) / 2;
+
+	mergeSplit(A, B, low, mid);
+	mergeSplit(A, B, mid + 1, high);
+	mergeArray(A, B, low, mid, high);
+	copyArray(A, B, low, high);
 }
 
 template <class T>

@@ -114,7 +114,7 @@ void Sorts<T>::mergeArray(std::vector<T> &A, std::vector<T> &B, int low, int mid
 	j = mid + 1;
 	k = low;
 
-	while (i <= mid &&j <= high) {
+	while (i <= mid && j <= high) {
 		if (A[i] < A[j]) {
 			B[k] = A[i];
 			i++;
