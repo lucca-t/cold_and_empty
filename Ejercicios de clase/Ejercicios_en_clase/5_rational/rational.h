@@ -47,20 +47,23 @@ Rational::Rational(int num){
 
 Rational::Rational(int num, int dem){
     if (dem == 0){
+		throw RangeError();
         numerator = 0;
         denominator = 1;
     }else{
         numerator = num;
         denominator = dem;
     }
+	normalize();
 }
 
+
 int Rational::getNumerator() const {
-	return 0;
+	return numerator;
 }
 
 int Rational::getDenominator() const {
-	return 0;
+	return denominator;
 }
 
 std::string Rational::toString() const {
@@ -71,13 +74,24 @@ std::string Rational::toString() const {
 }
 
 void Rational::operator= (const Rational &right) {
+	numerator = right.getNumerator();
+	denominator = right.getDenominator();
+
+	normalize();
 }
 
 void Rational::operator+= (const Rational &right) {
+	numerator = numerator * right.getDenominator() + denominator * right.getNumerator();
+	
+	denominator = denominator * right.getDenominator();
+
+	// get the same denominator
+
+	normalize();
 }
 
 Rational::operator double () const {
-	return 0.0;
+	return (double) numerator / (double) denominator ;
 }
 
 int gcd(int a, int b) {
@@ -92,26 +106,48 @@ int gcd(int a, int b) {
 }
 
 void Rational::normalize() {
+	int gcdd = gcd(numerator, denominator);
+	numerator = numerator /  gcdd;
+	denominator = denominator / gcdd;
+	// deal with negative numbers
+	// one negative, both negative, etc
+
+	// si los dos son + o - entonces es positivo
+	if (denominator < 0) {
+		numerator = -1 * numerator;
+		denominator = -1 * denominator;
+	}
+
 }
 
 Rational operator+ (const Rational &left, const Rational &right) {
-	return Rational();
+	int new_numerator = left.getNumerator() * right.getDenominator() + left.getDenominator() * right.getNumerator();
+	int new_denominator = left.getDenominator() * right.getDenominator();
+
+	// get the same denominator
+	return Rational(new_numerator, new_denominator);
 }
 
 Rational operator- (const Rational &left, const Rational &right) {
-	return Rational();
+	int new_numerator = left.getNumerator() * right.getDenominator() - left.getDenominator() * right.getNumerator();
+	int new_denominator = left.getDenominator() * right.getDenominator();
+
+	// get the same denominator
+	return Rational(new_numerator, new_denominator);
 }
 
 Rational operator- (const Rational &right) {
-	return Rational();
+	
+	return Rational(-right.getNumerator(), right.getDenominator());
 }
 
 bool operator== (const Rational &left, const Rational &right) {
-	return false;
+	
+	return left.getNumerator() == right.getNumerator() && left.getDenominator() == right.getDenominator();
 }
 
 bool operator<  (const Rational &left, const Rational &right) {
-	return false;
+	return (double) left < (double) right;
 }
 
 #endif /* RATIONAL_H_ */

@@ -26,7 +26,7 @@ public:
 		std::cout << " PASSED\n Test 3...";
 
 		/* TEST 3 */
-
+		std::cout << Rational(2,4).toString().c_str() << std::endl;
 		std::cout << "mi resultado" << Rational(2,4).toString().c_str() << "\n";
 		ASSERT_TRUE(!strcmp("1/2", Rational(2,4).toString().c_str()));
 		std::cout << " PASSED\n Test 4...";
@@ -66,7 +66,9 @@ public:
 		std::cout << " PASSED\n Test 11...";
 
 		/* TEST 11 */
+
 		r += Rational(2, 3);
+		std::cout << r.toString().c_str() <<std:: endl;
 		ASSERT_TRUE(!strcmp("1/1", r.toString().c_str()));
 		std::cout << " PASSED\n Test 12...";
 
