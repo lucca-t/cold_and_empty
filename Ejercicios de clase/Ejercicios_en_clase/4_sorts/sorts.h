@@ -106,42 +106,18 @@ std::vector<T> Sorts<T>::shellSort(const std::vector<T> &source) {
 
 
 	return v;
-
 }
 
 template <class T>
 void Sorts<T>::copyArray(std::vector<T> &A, std::vector<T> &B, int low, int high) {
-	for(int i = low; i <= high; i++) {
-		A[i] = B[i];
-	}
 }
 
 template <class T>
 void Sorts<T>::mergeArray(std::vector<T> &A, std::vector<T> &B, int low, int mid, int high) {
-	int i, j, k;
-
-	i = low;
-	j = mid + 1;
-	k = low;
-
-	while( i <= mid && j <= high) {
-		if (A[i] < A[j]) {
-			B[k] = A[i]
-		}
-	}
 }
 
 template <class T>
 void Sorts<T>::mergeSplit(std::vector<T> &A, std::vector<T> &B, int low, int high) {
-	if( (high - low) < 1){
-		return;
-	}
-	int mid = low + (high-low) / 2;
-
-	mergeSplit(A, B, low, mid);
-	mergeSplit(A, B, mid + 1, high);
-	mergeArray(A, B, low, mid, high);
-	copyArray(A, B, low, high);
 }
 
 template <class T>
