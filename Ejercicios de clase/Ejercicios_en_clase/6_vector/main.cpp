@@ -26,7 +26,7 @@ public:
 		}
 		
 		/* TEST 2 */
-		try {
+		try 
 			Vector<int>(0, val);
 			FAIL("RangeError not thrown");
 		} catch (std::exception &e) {

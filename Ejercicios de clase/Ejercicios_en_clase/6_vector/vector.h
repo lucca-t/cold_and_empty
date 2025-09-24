@@ -44,12 +44,16 @@ Vector<T>::Vector(unsigned int numberOfElements)  {
 
 template <class T>
 Vector<T>::Vector(unsigned int numberOfElements, T &initialValue)  {
-	if(numberOfElements == 0)
+	if(numberOfElements == 0) {
 		throw RangeError();
+	}
+
 	size = numberOfElements;
-	data = new T[size];
-	if(data == 0)
+	data = new T[size]; // ask for size space in the heap
+
+	if(data == 0) {
 		throw OutOfMemory();
+	}
 	for(unsigned int i =0; i < size; i++){
 		data[i] = initialValue;
 	}
