@@ -10,12 +10,13 @@
 
 #include "exception.h"
 #include <sstream>
+#include <iostream>
 
 template <class T>
 class Vector {
 private:
 	unsigned int size;
-	T	*data;
+	T *data;
 
 public:
 	Vector(unsigned int) ;
@@ -34,12 +35,16 @@ public:
 
 template <class T>
 Vector<T>::Vector(unsigned int numberOfElements)  {
-	if(numberOfElements == 0)
+	if(numberOfElements == 0) {
 		throw RangeError();
+	}
+
 	size = numberOfElements;
 	data = new T[size];
-	if(data == 0)
+	
+	if(data == NULL) {
 		throw OutOfMemory();
+	}
 }
 
 template <class T>
@@ -47,13 +52,14 @@ Vector<T>::Vector(unsigned int numberOfElements, T &initialValue)  {
 	if(numberOfElements == 0) {
 		throw RangeError();
 	}
-
+	
 	size = numberOfElements;
-	data = new T[size]; // ask for size space in the heap
-
-	if(data == 0) {
+	data = new T[size];
+	
+	if(data == NULL) {
 		throw OutOfMemory();
 	}
+
 	for(unsigned int i =0; i < size; i++){
 		data[i] = initialValue;
 	}
@@ -63,8 +69,11 @@ template <class T>
 Vector<T>::Vector(const Vector<T> &source) {
 	size = source.size;
 	data = new T[size];
-	if(data == 0)
+
+	if(data == NULL) {
 		throw OutOfMemory();
+	}
+
 	for(unsigned int i=0; i<size; i++){
 		data[i] = source.data[i];
 	}
@@ -73,7 +82,7 @@ Vector<T>::Vector(const Vector<T> &source) {
 template <class T>
 Vector<T>::~Vector() {
 	delete [] data;
-	data = 0;
+	data = NULL;
 	size = 0;
 }
 
@@ -84,12 +93,65 @@ unsigned int Vector<T>::length() const {
 
 template <class T>
 unsigned int Vector<T>::resize(unsigned int newSize)  {
-	return 0;
+	if (newSize == 0) {
+		throw RangeError();
+	}
+
+	//Crear un nuevo arreglo con tamaño newSize
+	T * nuevo_arreglo = new T[newSize];
+
+	//Copiar los datos del arreglo actual al nuevo arreglo
+	if (size < newSize) {
+		for (int i = 0; i < size; i++) {
+			nuevo_arreglo[i] = data[i];
+		}
+	} else {
+		for (int i = 0; i < newSize; i++) {
+			nuevo_arreglo[i] = data[i];
+
+		}
+	}
+	//Liberar la memoria del arreglo en memoria dinámica original
+	delete [] data;
+
+	//Apuntar data la nuevo arreglo
+	data = nuevo_arreglo;
+	size = newSize;
+
+	return newSize;
 }
 
 template <class T>
 unsigned int Vector<T>::resize(unsigned int newSize, T &initValue)  {
-	return 0;
+	if (newSize == 0) {
+		throw RangeError();
+	}
+
+	//Crear un nuevo arreglo con tamaño newSize
+	T * nuevo_arreglo = new T[newSize];
+
+	//Copiar los datos del arreglo actual al nuevo arreglo
+	if (size < newSize) {
+		for (int i = 0; i < size; i++) {
+			nuevo_arreglo[i] = data[i];
+		}
+		for (int i = size; i < newSize; i++) {
+			nuevo_arreglo[i] = initValue;
+		}
+	} else {
+		for (int i = 0; i < newSize; i++) {
+			nuevo_arreglo[i] = data[i];
+		}
+	}
+	//Liberar la memoria del arreglo en memoria dinámica original
+	delete [] data;
+
+	//Apuntar data la nuevo arreglo
+	data = nuevo_arreglo;
+	size = newSize;
+
+	return newSize;
+
 }
 
 template <class T>
@@ -106,7 +168,10 @@ std::string Vector<T>::toString() const {
 
 template <class T>
 T& Vector<T>::operator[] (unsigned int index) const  {
-	return data[0];
+	if (index >= size) {
+		throw IndexOutOfBounds();
+	}
+	return data[index];
 }
 
 template <class T>
