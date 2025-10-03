@@ -30,13 +30,22 @@ private:
 };
 
 template <class T>
-Link<T>::Link(T val) {}
+Link<T>::Link(T val) {
+	value = val;
+	next = NULL;
+}
 
 template <class T>
-Link<T>::Link(T val, Link* nxt) {}
+Link<T>::Link(T val, Link* nxt) {
+	value = val;
+	next = nxt;
+}
 
 template <class T>
-Link<T>::Link(const Link<T> &source) {}
+Link<T>::Link(const Link<T> &source) {
+	value = source.value;
+	next = source.next;
+}
 
 template <class T>
 class List {
@@ -76,52 +85,147 @@ private:
 };
 
 template <class T>
-List<T>::List(){}
+List<T>::List(){
+	head = NULL;
+	size = 0;
+}
 
 template <class T>
 List<T>::~List() {
+	clear();
 }
 
 template <class T>
 bool List<T>::empty() const {
+	if (head == NULL) {
+		return true;
+	}
 	return false;
 }
 
 template <class T>
 int List<T>::length() const {
-	return 0;
+	return size;
 }
 
 template <class T>
 bool List<T>::contains(T val) const {
+	if (empty()) {
+		return false;
+	}
+	
+	Link<T> * nodo_actual = head;
+	
+	while (nodo_actual->next != NULL) {
+		if (nodo_actual->value == val) {
+			return true;
+		}
+		nodo_actual = nodo_actual->next;
+	}
+	
 	return false;
 }
 
 template <class T>
 T List<T>::getFirst() const  {
-	return 0;
+	if (empty()) {
+		throw NoSuchElement();
+	}
+
+	return head->value;
 }
 
 template <class T>
 void List<T>::addFirst(T val)  {
+	//Crear el nuevo nodo
+	Link<T> * nuevo_nodo = new Link<T>(val);
+
+	//Validar que haya memoria disponible
+	if (nuevo_nodo == NULL) {
+		throw OutOfMemory();
+	}
+
+	//Si la lista está vacía, head apunta al nuevo nodo
+	if (empty()) {
+		head = nuevo_nodo;
+	} else {
+		//Si la lista no está vacía, apunta el next del nuevo al head
+		nuevo_nodo->next = head;
+		//apunta el head hacia el nuevo
+		head = nuevo_nodo;
+	}
+	size++;
+
 }
 
 template <class T>
 void List<T>::add(T val)  {
+	if (empty()) {
+		addFirst(val);
+	} else {
+		Link<T> *nuevo_nodo = new Link<T>(val);
+		if (nuevo_nodo == NULL) {
+			throw OutOfMemory();
+		}
+
+		Link<T> *nodo_final = head;
+
+		while (nodo_final->next != NULL){
+			nodo_final = nodo_final->next;
+		}
+		nodo_final->next = nuevo_nodo;
+		size++;
+	}
 }
 
 template <class T>
 T List<T>::removeFirst()  {
-	return 0;
+	if (empty()) {
+		throw NoSuchElement();
+	}
+	
+	Link<T> *
+	 nodo_victima = head;
+	T result = nodo_victima->value;
+	head = nodo_victima->next;
+	
+	nodo_victima->next = NULL;
+	delete nodo_victima;
+	size --;
+	return result;
+
 }
 
 template <class T>
 T List<T>::get(int index) const   {
-	return 0;
+	
+	if (index < 0 || index >= size) {
+		throw IndexOutOfBounds();
+	}
+	Link<T> *nodo_actual = head;
+
+	for(int i = 0; i < index; i ++ ) {
+		nodo_actual = nodo_actual->next;
+	}
+
+	return nodo_actual->value;
 }
 
 template <class T>
 void List<T>::clear() {
+	
+	Link<T> *nodo_actual = head;
+
+	while (nodo_actual != NULL) {
+		Link<T> *nodo_victima = nodo_actual;
+		nodo_actual = nodo_actual->next;
+
+		nodo_victima->next = NULL;
+		delete nodo_victima;
+
+	}
+	head = NULL;
+	size = 0;
 }
 
 template <class T>
@@ -144,24 +248,130 @@ std::string List<T>::toString() const {
 
 template <class T>
 List<T>::List(const List<T> &source)  {
+	head = NULL;
+	size = 0;
+	Link <T> *nodo_actual = source.head;
+	while (nodo_actual != NULL) {
+		add(nodo_actual->value);
+		nodo_actual = nodo_actual->next;
+		
+	}
 }
 
 template <class T>
 void List<T>::operator=(const List<T> &source)  {
+	clear();
+	head = NULL;
+	size = source.size;
+	Link <T> *nodo_actual = source.head;
+	while (nodo_actual != NULL) {
+		add(nodo_actual->value);
+		nodo_actual = nodo_actual->next;
+		
+	}
+
+	size = source.size;
 }
 
 template <class T>
 void List<T>::addBefore(ListIterator<T> &itr, T val)   {
+	
+	Link<T> *newLink;
+	
+	// check if it's the correct list
+	if (this != itr.theList) {
+		throw IllegalAction();
+	}
+	// make new node and check if there's memory
+	newLink = new Link<T>(val);
+	if (newLink == 0) {
+		throw OutOfMemory();
+	}
+
+
+	//so if we're adding before
+	// [2, 3, 4]
+	// 
+
+	//middle
+	if(itr.previous != 0){// pointing to valid node currently
+		//point current to link
+		//point current to new
+		newLink-> next = itr.current;
+		itr.previous->next = newLink;
+		itr.previous = itr.previous->next;
+		size++;
+	}
+	else{//not at the middle and not not in the beginning
+		addFirst(val);
+		itr.previous = head;
+		itr.current = itr.previous->next;
+	}
 }
 
 template <class T>
 void List<T>::addAfter(ListIterator<T> &itr, T val)   {
+	// check if out of range
+	// iterate thru list
+
+	Link<T> *newLink;
+	
+	// check if it's the correct list
+	if (this != itr.theList) {
+		throw IllegalAction();
+	}
+	// make new node and check if there's memory
+	newLink = new Link<T>(val);
+	if (newLink == 0) {
+		throw OutOfMemory();
+	}
+
+	//middle
+	if(itr.current != 0){// pointing to valid node currently
+		//point current to link
+		//point current to new
+		newLink-> next = itr.current->next;
+		itr.current->next = newLink;
+		size++;
+	}
+	else if( itr.previous != 0){//not at the beginning and not in the middle
+		itr.previous->next = newLink;
+		newLink->next = NULL;
+		size++;
+	}
+	else{//not at the middle and not not in the beginning
+		addFirst(val);
+		itr.current = head;
+		itr.previous = 0;
+	}
+
 }
 
 template <class T>
 T List<T>::removeCurrent(ListIterator<T> &itr)   {
-	return 0;
+	T val;
+	// check if it's the correct list
+	if (this != itr.theList) {
+		throw IllegalAction();
+	}
+	if (itr.current == 0) {
+		throw NoSuchElement();
+	}
+	//middle
+	if(itr.previous != 0) {// set previoux next equal to current next
+		itr.previous->next = itr.current->next;
+	}else {//set next as head
+		head = itr.current->next;
+	}
+
+	val = itr.current->value;
+	delete itr.current;
+	itr.current = 0;
+	size--;
+	//std::cout << "remove current = " << ((itr.current != 0)? itr.current->value : 0) << " previous: " << ((itr.previous != 0)? itr.previous->value : 0) << std::endl;
+	return val;
 }
+
 
 template <class T>
 bool List<T>::set(int index, T val)  {

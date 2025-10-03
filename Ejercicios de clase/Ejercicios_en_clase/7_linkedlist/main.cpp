@@ -137,6 +137,8 @@ public:
 
 		/* TEST 22 */
 		b2 = b1;
+		//std::cout << b2.toString() << std::endl;
+		//std::cout << b1.toString() << std::endl;
 		ASSERT_TRUE(3 == b2.length());
 		ASSERT_TRUE(!strcmp("[2, 3, 4]", b2.toString().c_str()));
 		std::cout << " PASSED.\nTest 23";
@@ -154,7 +156,8 @@ public:
 
 		/* TEST 25 */
 		b1.addAfter(itr1,10);
-		ASSERT_TRUE(!strcmp("[2, 3, 10, 4", b1.toString().c_str()));
+		//std::cout << b1.toString() << std::endl;
+		ASSERT_TRUE(!strcmp("[2, 3, 10, 4]", b1.toString().c_str()));
 		std::cout << " PASSED.\nTest 26";
 
 		/* TEST 26 */
