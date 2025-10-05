@@ -1,7 +1,7 @@
 /*
  *  Actividad Formativa 3: Lista-Ligada
  *  Created on: 03/10/2025
- *      Author: Lucca Traslosheros Abascal
+ *  	Author: Lucca Traslosheros Abascal
  * 
  */
 
