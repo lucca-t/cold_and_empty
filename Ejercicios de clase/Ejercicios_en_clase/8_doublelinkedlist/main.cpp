@@ -191,7 +191,7 @@ public:
 		ASSERT_TRUE(1 == b1.remove(4));
 		ASSERT_TRUE(6 == b1.length());
 		ASSERT_TRUE(!strcmp("[1, 1, 2, 4, 5, 1]", b1.toString().c_str()));
-		std::cout << " PASSED.\nTest 32";
+		std::cout << " PASSED.\nTest 32";	
 		
 		/* TEST 32 */
 		ASSERT_TRUE(true == b1.removeFirstOcurrence(1));
@@ -208,7 +208,7 @@ public:
 		ASSERT_TRUE(4 == b1.length());
 		ASSERT_TRUE(!strcmp("[1, 2, 4, 5]", b1.toString().c_str()));
 		std::cout << " PASSED.\nTest 35";
-		
+	
 		/* TEST 35 */
 		ASSERT_TRUE(false == b1.removeLastOcurrence(100));
 		std::cout << " PASSED.\nTest 36";

@@ -353,9 +353,22 @@ int DList<T>::indexOf(T val) const {
 
 template <class T>
 int DList<T>::lastIndexOf(T val) const {
-	return 0;
-}
+	// checar por primer valor pero usando tail
+	int index;
+	DLink<T> *p;
 
+	index = size - 1;
+	p = tail;
+	while (p != 0) {
+		if (p->value == val) {
+			return index;
+		}
+		index--;
+		p = p->previous;
+	}
+	return -1;
+
+}
 template <class T>
 T DList<T>::remove(int index)  {
 	int pos;
@@ -391,11 +404,61 @@ T DList<T>::remove(int index)  {
 
 template <class T>
 bool DList<T>::removeFirstOcurrence(T val) {
+	// checar si existe, break
+	// borrar
+	// checar si es principio, middle o final
+	// y ya
+	DLink<T> *p;
+	p = head;
+
+	while(p != 0) {
+		if (p->value == val) {
+			break;
+		}
+		p = p->next;
+	}
+	if (p != 0) {
+		if (p->previous == 0) {
+			return removeFirst();
+		} else {
+			p->previous->next = p->next;
+			if (p->next != 0) {
+				p->next->previous = p->previous;
+			}
+		}
+		size--;
+		return true;
+	}
+
+	
 	return false;
 }
 
 template <class T>
 bool DList<T>::removeLastOcurrence(T val) {
+	DLink<T> *p;
+	p = tail;
+
+	while(p != 0) {
+		if (p->value == val) {
+			break;
+		}
+		p = p->previous;
+	}
+	if (p != 0) {
+		if (p->previous == 0) {
+			return removeFirst();
+		} else {
+			p->previous->next = p->next;
+			if (p->next != 0) {
+				p->next->previous = p->previous;
+			}
+		}
+		size--;
+		return true;
+	}
+
+	
 	return false;
 }
 
