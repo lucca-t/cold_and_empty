@@ -36,6 +36,7 @@ public:
 
 		/* TEST 6 */
 		s1.enqueue(23);
+		std::cout << s1.toString().c_str() << std::endl;
 		ASSERT_TRUE(!strcmp("[4, 8, 15, 16, 23]", s1.toString().c_str()));
 		std::cout << " PASSED.\nTest 7...";
 

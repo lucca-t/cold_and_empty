@@ -45,61 +45,68 @@ public:
 
 template <class T>
 QueueVector<T>::QueueVector(int sze)  {
-
+	head = 0;
+	tail = 0; 
+	size = sze; 
+	counter = 0;
+	data = new T[size];
+	if (data == NULL) {
+		throw OutOfMemory();
+	}
 }
 
 template <class T>
 QueueVector<T>::~QueueVector() {
-
+	delete [] data;
+	size = 0;
+	head = 0;
+	tail = 0;
+	counter = 0;
 }
 
 template <class T>
 bool QueueVector<T>::empty() const {
-    return (counter == 0)? true : false;
+    return counter == 0;
 }
 
 template <class T>
 bool QueueVector<T>::full() const {
-    return (counter == size)? true : false;
+    return counter == size;
 }
 
 template <class T>
 void QueueVector<T>::enqueue(T val)  {
-    if(full()){
-       throw Overflow();
-    }
-    data[tail] = val;
-    tail = (tail + 1) % size;
-    counter ++;
+    if (full()) {
+		throw Overflow();
+	}
+	data[tail] = val;
+	tail++; 
+	tail = tail % size;
+	counter++;
 }
 
 template <class T>
 T QueueVector<T>::front() const  {
-    T aux;
-
-	if(empty()){throw NoSuchElement();}
-
-    aux = data[head];
-
-	return aux;
-
+	if (empty()) {
+		throw NoSuchElement();
+	}
+   	return data[head];
 }
 
 template <class T>
 void QueueVector<T>::dequeue()  {
-
-    if(empty()){
-        throw NoSuchElement();
-    }
-    head = (head + 1 ) % size;
-    counter --;
+	if (empty()) {
+		throw NoSuchElement();
+	}
+	head++;
+	counter--;
 }
 
 template <class T>
 void QueueVector<T>::clear() {
     tail = 0;
-    head = 0;
-    counter = 0;
+	head = 0;
+	counter = 0;
 }
 
 template <class T>
@@ -137,30 +144,28 @@ public:
 
 template <class T>
 void QueueList<T>::enqueue(T val) {
-    data.push_back(val);
+	data.push_back(val);
 }
 
 template <class T>
 T QueueList<T>::front() const  {
-	T aux;
-
-	if(empty()){throw NoSuchElement();}
-
-    aux = data.front();
-
-	return aux;
+	if (data.empty()) {
+		throw NoSuchElement();
+	}
+	return data.front();
 }
 
 template <class T>
 void QueueList<T>::dequeue()  {
-	if(empty()){throw NoSuchElement();}
-
-    data.pop_front();
+	if (data.empty()) {
+		throw NoSuchElement();
+	}
+	data.pop_front();
 }
 
 template <class T>
 bool QueueList<T>::empty() const {
-    return (data.empty()) ? true : false;
+    return data.empty();
 }
 
 template <class T>
