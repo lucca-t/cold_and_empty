@@ -59,7 +59,9 @@ List<T>::~List() {
 template <class T>
 void List<T>::clear() {
 	Link<T> *p, *q;
-
+	// p itera para borrar
+	// q temporario para aguantar valor
+	
 	p = head;
 	while (p != 0) {
 		q = p->next;
