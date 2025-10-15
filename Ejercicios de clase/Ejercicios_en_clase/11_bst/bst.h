@@ -36,18 +36,63 @@ public:
 };
 
 template <class T>
-TreeNode<T>::TreeNode(T val) {}
+TreeNode<T>::TreeNode(T val) {
+	value = val;
+	left = NULL;
+	right = NULL;
+}
 
 template <class T>
-TreeNode<T>::TreeNode(T val, TreeNode<T> *le, TreeNode<T> *ri) {}
+TreeNode<T>::TreeNode(T val, TreeNode<T> *le, TreeNode<T> *ri) {
+	value = val;
+	left = le;
+	right = ri;
+}
 
 template <class T>
 void TreeNode<T>::add(T val) {
+	if (val != value) {
+		if (val < value) {
+			if (left == NULL) {
+				TreeNode<T> * nuevo_nodo = new TreeNode<T>(val);
+				if (nuevo_nodo == 0) {
+					throw OutOfMemory();
+				}
+				left = nuevo_nodo;
+			} else {
+				left->add(val);
+			}
+		} else {
+			if (right == NULL) {
+				TreeNode<T> * nuevo_nodo = new TreeNode<T>(val);
+				if (nuevo_nodo == 0) {
+					throw OutOfMemory();
+				}
+				right = nuevo_nodo;
+			} else {
+				right->add(val);
+			}
+		}
+	} 
 }
 
 template <class T>
 bool TreeNode<T>::find(T val) {
-	return false;
+	if (val == value) {
+		return true;
+	}
+
+	if (val < value) {
+		if (left == NULL) {
+			return false;
+		} 
+		return left->find(val);
+	} else {
+		if (right == NULL) {
+			return false;
+		}
+		return right->find(val);
+	}
 }
 
 template <class T>
@@ -57,6 +102,11 @@ TreeNode<T>* TreeNode<T>::succesor() {
 
 template <class T>
 void TreeNode<T>::remove(T val) {
+	if (val == value) {
+		if (left == NULL && right == NULL) {
+			
+		}
+	}
 }
 
 template <class T>
@@ -108,7 +158,9 @@ public:
 };
 
 template <class T>
-BST<T>::BST() : root(0) {}
+BST<T>::BST() : root(0) {
+	root = NULL;
+}
 
 template <class T>
 BST<T>::~BST() {
@@ -122,10 +174,40 @@ bool BST<T>::empty() const {
 
 template<class T>
 void BST<T>::add(T val) {
+	if (root == NULL) {
+		TreeNode<T> * nuevo_nodo = new TreeNode<T>(val);
+		if (nuevo_nodo == NULL) {
+			throw OutOfMemory();
+		}
+		root = nuevo_nodo;
+	} else {
+		root->add(val);
+	}
 }
 
 template <class T>
 void BST<T>::remove(T val) {
+	// isn't in tree
+	if (!root->find(val)) {
+		throw NoSuchElement();
+	}
+	// if it's root
+	if (root->left == NULL && root -> right == NULL) {
+		delete root;
+		root = NULL;
+	} else {
+		if (root->value == val) {
+			TreeNode<T> *sucesor = root -> successor();
+			delete root;
+			sucesor->left = root->left;
+			sucesor->right = root->right;
+			root = sucesor;
+
+
+			
+		}
+	}
+
 }
 
 template <class T>
@@ -134,6 +216,7 @@ void BST<T>::removeAll() {
 
 template <class T>
 bool BST<T>::find(T val) const {
+	return root->find(val);
 }
 
 template <class T>
