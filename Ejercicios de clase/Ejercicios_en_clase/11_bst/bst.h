@@ -203,8 +203,6 @@ void BST<T>::remove(T val) {
 			sucesor->right = root->right;
 			root = sucesor;
 
-
-			
 		}
 	}
 
