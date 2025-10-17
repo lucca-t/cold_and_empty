@@ -204,6 +204,7 @@ void BST<T>::remove(T val) {
 			root = sucesor;
 
 		}
+		
 	}
 
 }
