@@ -11,6 +11,8 @@
 #include <string>
 #include <sstream>
 #include "exception.h"
+#include <iostream>
+#include <cstring>
 
 template <class T> class BST;
 
@@ -95,17 +97,72 @@ bool TreeNode<T>::find(T val) {
 	}
 }
 
-template <class T>
+template <class T>	
 TreeNode<T>* TreeNode<T>::succesor() {
+	// Buscar el mayor de los menores
+	if (left != NULL) {
+		TreeNode<T> * sucesor = left;
+		if (left->right == NULL) {
+			left = left->left;
+			sucesor->left = NULL;
+			return sucesor;
+		}
+		TreeNode<T> * ancestro = sucesor;
+		while (sucesor->right != NULL) {
+			ancestro = sucesor;
+			sucesor = sucesor->right;
+		}
+		if (sucesor->left != NULL) {
+			ancestro->right = sucesor->left;
+			sucesor->left = NULL;
+		} else {
+			ancestro->right = NULL;
+		}
+		return sucesor;
+
+	} else { // Si no hay rama izquierda, buscar el menor de los mayores
+
+	}
 	return 0;
 }
 
 template <class T>
 void TreeNode<T>::remove(T val) {
-	if (val == value) {
-		if (left == NULL && right == NULL) {
-			
+	if (val < value) {
+		if (left->value == val) {
+			if (left->left == NULL && left->right == NULL) { //Es hoja
+				delete left->left;
+				left = NULL;
+			} else { //Es rama
+				TreeNode<T> * victima = left;
+				TreeNode<T> * sucesor = left->succesor();
+				sucesor->left = victima->left;
+				sucesor->right = victima->right;
+				victima->left = NULL;
+				victima->right = NULL;
+				left = sucesor;
+				delete victima;
+			}
+		} else {
+			left->remove(val);
 		}
+	} else {
+		// hoja
+		if (right->value == val) {
+			if(right->left == NULL && right->right == NULL) {
+				delete right;
+				right = NULL;
+			// rama
+			} else {
+				right ->remove(val);
+
+			}
+		} else {
+			right->remove(val);
+		}
+
+		// hoja
+		// 
 	}
 }
 
@@ -187,26 +244,25 @@ void BST<T>::add(T val) {
 
 template <class T>
 void BST<T>::remove(T val) {
-	// isn't in tree
 	if (!root->find(val)) {
 		throw NoSuchElement();
 	}
-	// if it's root
-	if (root->left == NULL && root -> right == NULL) {
+	if (root->left == NULL && root->right == NULL) {
 		delete root;
 		root = NULL;
 	} else {
 		if (root->value == val) {
-			TreeNode<T> *sucesor = root -> successor();
-			delete root;
+			TreeNode<T> * sucesor = root->succesor();
 			sucesor->left = root->left;
 			sucesor->right = root->right;
+			root->left = NULL;
+			root->right = NULL;
+			delete root;
 			root = sucesor;
-
+		} else {
+			root->remove(val);
 		}
-		
 	}
-
 }
 
 template <class T>
