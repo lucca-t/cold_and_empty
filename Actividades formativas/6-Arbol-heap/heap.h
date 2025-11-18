@@ -1,9 +1,7 @@
 /*
- * heap.h
- *
- *  Created on: 20/10/2015
- *      Author: clase
- *
+	Actividad Formativa 6: Arbol Heap
+	Lucca Traslosheros Abascal
+	07/11/2025
 */
 
 #ifndef HEAP_H_
@@ -11,7 +9,6 @@
 
 #include <string>
 #include <sstream>
-
 #include <iostream>
 
 template <class T>
@@ -35,7 +32,6 @@ public:
 	T remove() ;
 	void clear();
 	std::string toString() const;
-
 
 	// Tarea
 	void push(T);
@@ -143,25 +139,40 @@ std::string Heap<T>::toString() const {
 	return aux.str();
 }
 
-// Método push: agrega un elemento al heap
+
+// Tarea
+
+// agrega un elemento al heap
 template <class T>
 void Heap<T>::push(T val) {
-	add(val);
+	unsigned int pos;
+
+	pos = count;
+	count++;
+	while (pos > 0 && val < data[parent(pos)]) {
+		data[pos] = data[parent(pos)];
+		pos = parent(pos);
+	}
+	data[pos] = val;
 }
 
-// Método pop: elimina el elemento mínimo del heap
+// elimina el elemento mínimo del heap
 template <class T>
 void Heap<T>::pop() {
-	remove();
+	T aux = data[0];
+
+	data[0] = data[--count];
+	heapify(0);
+	
 }
 
-// Método top: retorna el elemento mínimo sin eliminarlo
+// retorna el elemento mínimo sin eliminarlo
 template <class T>
 T Heap<T>::top() const {
 	return data[0];
 }
 
-// Método size: retorna el número de elementos en el heap
+// retorna el número de elementos en el heap
 template <class T>
 unsigned int Heap<T>::size() const {
 	return count;

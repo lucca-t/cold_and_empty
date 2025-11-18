@@ -171,8 +171,15 @@ string Graph::printAdjMat_clean(){
 }
 
 string Graph::DFS(int start, int goal){
+	// Pick smallest each time
+	stack<int> pila;
+	list<int> visitados;
+	vector<vector<int>> caminos(nodes, vector<int>(1, -1));
+	// Add first node to stack
+	pila.push(start);
 
-		return "";
+	return depthHelper(start,goal,pila,visitados,caminos);
+	
 }
 
 string Graph::depthHelper(int current,
@@ -181,7 +188,32 @@ string Graph::depthHelper(int current,
 															list<int> &visited,
 															vector<vector<int>> &paths){
 
-			return " node not found";
+	int start = current;
+	while (!st.empty()) {
+		
+		// Current is that thing at the top of our stack and then we pop it
+		int current = st.top();
+		st.pop();
+		// Add that we visited
+		visited.push_back(current);
+		// If we found it we return the path
+		if (current == goal) {
+			return print_visited(visited) + print_path(paths, start, goal);
+			
+		}
+		// Start adding connections 
+		for (int conexion: adjList[current]) {    
+			// Check that we haven't visited it
+			if (contains(visited, conexion)) {
+				continue;
+			}
+			st.push(conexion);
+			// Updating our paths 
+			paths[conexion][0] = current;
+		}
+	}
+	
+	return "node not found";
 }
 
 string Graph::BFS(int start, int goal){

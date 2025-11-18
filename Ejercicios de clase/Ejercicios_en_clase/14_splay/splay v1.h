@@ -46,6 +46,8 @@ public:
 
 template <class T>
 Node<T>* SplayTree<T>::rot_right(Node<T>* x){
+	// Empezacmos con nodo X
+
 	Node<T> *y = x->left;
 	x->left = y->right;
 	y->right = x;
