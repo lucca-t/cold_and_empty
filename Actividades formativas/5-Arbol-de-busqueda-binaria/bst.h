@@ -13,6 +13,7 @@ Actividad 5 Formativa
 #include <string>
 #include <sstream>
 #include <queue>
+#include <vector>
 
 template <class T> class BST;
 
@@ -21,7 +22,6 @@ class TreeNode {
 private:
     T value;
     TreeNode *left, *right;
-    TreeNode<T>* succesor();
 
 public:
     TreeNode(T);
@@ -190,9 +190,17 @@ std::string BST<T>::ancestors(T val) const {
     if (root != nullptr) {
         std::stringstream temp;
         if (root->ancestors(val, temp)) {
-            std::string str = temp.str();
-            if (!str.empty())
-                ss << str.substr(0, str.size() - 1);
+            // Revertir el orden de los ancestros (de child-to-root a root-to-child)
+            std::vector<T> ancestorsList;
+            T ancestor;
+            while (temp >> ancestor) {
+                ancestorsList.push_back(ancestor);
+            }
+            // Imprimir en orden inverso
+            for (int i = ancestorsList.size() - 1; i >= 0; i--) {
+                ss << ancestorsList[i];
+                if (i > 0) ss << " ";
+            }
         }
     }
     ss << "]";
